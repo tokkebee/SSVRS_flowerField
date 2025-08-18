@@ -27,18 +27,18 @@ public class FoliageManager : MonoBehaviour {
     }
 
     //setters
-    private void setTerrainWidth(float newWidth) {
+    public void setTerrainWidth(float newWidth) {
         terrainWidth = newWidth;
     }
     
     //getters
-    private float getTerrainWidth() {
+    public float getTerrainWidth() {
         return terrainWidth;
     }
 
     public void Spawn() {
-        float area = terrainWidth * 2f * 2f;
-        // float area = UIManager.Instance.getRenderDistanceValue() * 2f * 2f;
+        //float area = terrainWidth * 2f * 2f;
+        float area = UIManager.Instance.getRenderDistanceValue() * 2f * 2f;
         ClearFoliage();
 
         foreach (FoliageType type in foliageTypes) {

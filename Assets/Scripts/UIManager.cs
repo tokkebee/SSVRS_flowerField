@@ -36,23 +36,23 @@ public class UIManager : MonoBehaviour {
         //default settings
         //render distance slider
 
-        // renderDistanceSlider.value = renderDistanceSlider.minValue;
-        // setRenderDistanceValue(renderDistanceSlider.value);
+        setRenderDistanceValue(50f);
 
-        // renderDistanceSlider.onValueChanged.AddListener((value) => {
-        //     setRenderDistanceValue(value);
-        // });
+        renderDistanceSlider.onValueChanged.AddListener((value) => {
+            setRenderDistanceValue(value);
+            FoliageManager.setTerrainWidth(value);
+        });
     }
 
     // //setters
-    // public void setRenderDistanceValue(float newValue) {
-    //     renderDistanceSliderValue = newValue;
-    // }
+    public void setRenderDistanceValue(float newValue) {
+        renderDistanceSliderValue = newValue;
+    }
 
     // //getters
-    // public float getRenderDistanceValue() {
-    //     return renderDistanceSliderValue;
-    // }
+    public float getRenderDistanceValue() {
+        return renderDistanceSliderValue;
+    }
 
     public void panelToggle() {
         if (panel != null) {

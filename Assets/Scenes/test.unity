@@ -730,7 +730,7 @@ MonoBehaviour:
   panelButton: {fileID: 2084794298}
   panel: {fileID: 830009876}
   renderDistanceSlider: {fileID: 199231026}
-  renderDistanceSliderValue: 0
+  renderDistanceSliderValue: 50
   applySettingsButton: {fileID: 1531579606}
 --- !u!1 &784622496
 GameObject:

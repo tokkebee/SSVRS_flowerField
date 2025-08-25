@@ -9,7 +9,7 @@ public class PlayerLook : MonoBehaviour {
     public Transform playerBody;
     private float xRotation = 0f;
 
-    private bool isDebugMode = false; // Toggle UI interaction mode
+    public bool isDebugMode = false; // Toggle UI interaction mode
 
     void Start() {
         LockCursor();

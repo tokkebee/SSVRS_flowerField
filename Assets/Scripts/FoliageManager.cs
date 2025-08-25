@@ -1,12 +1,14 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class FoliageManager : MonoBehaviour {
     [System.Serializable]
     public class FoliageType {
         public GameObject prefab;
-        public int count = 50;
-        public float foliageDensity = 0.4f; //TODO
+        public int count = 1000;
+        public float foliageDensity = .4f; //TODO
     }
 
     [Header("Terrain Settings")]
@@ -30,30 +32,26 @@ public class FoliageManager : MonoBehaviour {
     public void setTerrainWidth(float newWidth) {
         terrainWidth = newWidth;
     }
-    
+
     //getters
     public float getTerrainWidth() {
         return terrainWidth;
     }
 
     public void Spawn() {
-        //float area = terrainWidth * 2f * 2f;
-        float area = UIManager.Instance.getRenderDistanceValue() * 2f * 2f;
+        float renderDist = UIManager.Instance.getRenderDistanceValue();
+        float area = Mathf.Pow(renderDist, 2);
         ClearFoliage();
 
         foreach (FoliageType type in foliageTypes) {
-            // if (type.density >= 0f && type.density <= .01f) {
-            //     type.density = type.count / area;
-            // }
+            type.count = Mathf.CeilToInt(type.foliageDensity * area);
+            type.foliageDensity = type.count / area;
 
-            int adjustedCount = Mathf.CeilToInt(type.foliageDensity * area);
-            type.count = adjustedCount;
-
-            for (int i = 0; i < adjustedCount; i++) {
+            for (int i = 0; i < type.count; i++) {
                 Vector3 pos = new Vector3(
-                    Random.Range(-terrainWidth, terrainWidth),
+                    Random.Range(-renderDist, renderDist),
                     0f,
-                    Random.Range(-terrainWidth, terrainWidth)
+                    Random.Range(-renderDist, renderDist)
                 );
 
                 GameObject obj = Instantiate(type.prefab, pos, Quaternion.identity, transform);
@@ -61,9 +59,8 @@ public class FoliageManager : MonoBehaviour {
                 allFoliage.Add(obj);
             }
         }
-
-        foliageDensity = getFoliageDensity();
     }
+
 
     public void ClearFoliage() {
         for (int i = allFoliage.Count - 1; i >= 0; i--) {
@@ -110,4 +107,4 @@ public class FoliageManager : MonoBehaviour {
 
         obj.position = pos;
     }
-} 
+}

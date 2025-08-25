@@ -603,9 +603,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   terrainWidth: 50
   foliageTypes:
-  - prefab: {fileID: 8476956724356318192, guid: 02897399df111da4d876255f0a01748e, type: 3}
-    count: 100
-    foliageDensity: 1
+  - prefab: {fileID: 919132149155446097, guid: 54c3e44bbd364c44c812d739f76818b6, type: 3}
+    count: 1000
+    foliageDensity: 0.2
   scrollSpeed: 5
 --- !u!1 &684590497
 GameObject:
@@ -1060,6 +1060,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mouseSensitivity: 1000
   playerBody: {fileID: 891743285}
+  isDebugMode: 0
 --- !u!81 &901261451
 AudioListener:
   m_ObjectHideFlags: 0

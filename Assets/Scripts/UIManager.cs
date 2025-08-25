@@ -34,22 +34,22 @@ public class UIManager : MonoBehaviour {
         panel.SetActive(false);
 
         //default settings
-        //render distance slider
-
         setRenderDistanceValue(50f);
 
         renderDistanceSlider.onValueChanged.AddListener((value) => {
+            //FoliageManager.ClearFoliage();
             setRenderDistanceValue(value);
             FoliageManager.setTerrainWidth(value);
+            FoliageManager.Spawn();
         });
     }
 
-    // //setters
+    //setters
     public void setRenderDistanceValue(float newValue) {
         renderDistanceSliderValue = newValue;
     }
 
-    // //getters
+    //getters
     public float getRenderDistanceValue() {
         return renderDistanceSliderValue;
     }
@@ -63,14 +63,12 @@ public class UIManager : MonoBehaviour {
     public void panelExit() {
         if (panel != null) {
             panel.SetActive(false);
+            GameManager.Instance.Player.GetComponent<PlayerLook>().isDebugMode = true;
         }
     }
 
     //applies settings by calling all related Spawn() functions
-    //applies settings by reloading the scene (stupid fucking idea)
     public void applySettings() {
         FoliageManager.Spawn();
-        // Scene currentScene = SceneManager.GetActiveScene();
-        // SceneManager.LoadScene(currentScene.name);
     }
 }

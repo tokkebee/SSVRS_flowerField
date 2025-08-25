@@ -12,7 +12,7 @@ public class FoliageManager : MonoBehaviour {
     }
 
     [Header("Terrain Settings")]
-    [SerializeField] private float terrainWidth = 50f;
+    [SerializeField] private float terrainWidth = 100f;
 
     [Header("Foliage Settings")]
     public List<FoliageType> foliageTypes;

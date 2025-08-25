@@ -34,11 +34,12 @@ public class UIManager : MonoBehaviour {
         panel.SetActive(false);
 
         //default settings
-        setRenderDistanceValue(50f);
+        setRenderDistanceValue(100f);
 
         renderDistanceSlider.onValueChanged.AddListener((value) => {
             //FoliageManager.ClearFoliage();
             setRenderDistanceValue(value);
+            GameManager.Instance.fogDistance(value);
             FoliageManager.setTerrainWidth(value);
             FoliageManager.Spawn();
         });
@@ -63,7 +64,7 @@ public class UIManager : MonoBehaviour {
     public void panelExit() {
         if (panel != null) {
             panel.SetActive(false);
-            GameManager.Instance.Player.GetComponent<PlayerLook>().isDebugMode = true;
+            //GameManager.Instance.Player.GetComponent<PlayerLook>().isDebugMode = true;
         }
     }
 

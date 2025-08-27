@@ -72,11 +72,6 @@ public class FoliageManager : MonoBehaviour {
         allFoliage.Clear();
     }
 
-    // public float getFoliageDensity() {
-    //     foliageDensity = allFoliage.Count / (terrainWidth * 2);
-    //     return foliageDensity;
-    // }
-
     void Update() {
         float inputX = Input.GetAxisRaw("Horizontal");
         float inputZ = Input.GetAxisRaw("Vertical");
@@ -90,7 +85,7 @@ public class FoliageManager : MonoBehaviour {
         camRight.Normalize();
 
         Vector3 inputDirection = (camForward * inputZ + camRight * inputX).normalized;
-        Vector3 movement = inputDirection * scrollSpeed * Time.deltaTime;
+        Vector3 movement = inputDirection * UIManager.Instance.getMovementSpeedValue() * Time.deltaTime;
 
         foreach (GameObject obj in allFoliage) {
             obj.transform.position -= movement;

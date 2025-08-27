@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System;
 
 //This script handles all UI interactions.
 //Sliders have Listeners
@@ -18,8 +19,10 @@ public class UIManager : MonoBehaviour {
     [Header("UI Elements")]
     [SerializeField] private Button panelButton;
     [SerializeField] public GameObject panel;
+    [SerializeField] private Slider movementSpeedSlider;
+    [SerializeField] private float movementSpeedSliderValue;
     [SerializeField] private Slider mouseSensitivitySlider;
-    [SerializeField] private float mouseSensitivitySliderValue;
+    [SerializeField] private int mouseSensitivitySliderValue;
     [SerializeField] private Slider floralDensitySlider;
     [SerializeField] private float floralDensitySliderValue;
 
@@ -38,13 +41,20 @@ public class UIManager : MonoBehaviour {
         panel.SetActive(false);
 
         //default settings
+        setMovementSpeedValue(5);
         setMouseSensitivityValue(1000);
         setFloralDensityValue(0.2f);
         setRenderDistanceValue(100f);
 
+        //movement speed listener
+        movementSpeedSlider.onValueChanged.AddListener((value) => {
+            setMovementSpeedValue(value);
+        });
+
         //mouse sensitivity listener
         mouseSensitivitySlider.onValueChanged.AddListener((value) => {
-            setMouseSensitivityValue(value);
+            int intValue = Mathf.RoundToInt(value);
+            setMouseSensitivityValue(intValue);
         });
 
         //floral density listener
@@ -73,7 +83,10 @@ public class UIManager : MonoBehaviour {
     }
 
     //setters
-    public void setMouseSensitivityValue(float newValue) {
+    public void setMovementSpeedValue(float newValue) {
+        movementSpeedSliderValue = newValue;
+    }
+    public void setMouseSensitivityValue(int newValue) {
         mouseSensitivitySliderValue = newValue;
     }
     public void setFloralDensityValue(float newValue) {
@@ -84,7 +97,10 @@ public class UIManager : MonoBehaviour {
     }
 
     //getters
-    public float getMouseSensitivityValue() {
+    public float getMovementSpeedValue() {
+        return movementSpeedSliderValue;
+    }
+    public int getMouseSensitivityValue() {
         return mouseSensitivitySliderValue;
     }
     public float getFloralDensityValue() {

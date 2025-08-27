@@ -12,9 +12,14 @@ public class UIManager : MonoBehaviour {
     [Header("Managers")]
     [SerializeField] private FoliageManager FoliageManager;
 
+    [Header("Scripts")]
+    [SerializeField] private PlayerLook PlayerLook;
+
     [Header("UI Elements")]
     [SerializeField] private Button panelButton;
-    [SerializeField] private GameObject panel;
+    [SerializeField] public GameObject panel;
+    [SerializeField] private Slider mouseSensitivitySlider;
+    [SerializeField] private float mouseSensitivitySliderValue;
     [SerializeField] private Slider floralDensitySlider;
     [SerializeField] private float floralDensitySliderValue;
 
@@ -24,21 +29,23 @@ public class UIManager : MonoBehaviour {
     [SerializeField] private Button applySettingsButton;
 
     void Awake() {
-        // if (Instance != null && Instance != this) {
-        //     Destroy(gameObject);
-        //     return;
-        // }
-
         Instance = this;
         DontDestroyOnLoad(gameObject);
     }
 
     void Start() {
+        lockCursor();
         panel.SetActive(false);
 
         //default settings
+        setMouseSensitivityValue(1000);
         setFloralDensityValue(0.2f);
         setRenderDistanceValue(100f);
+
+        //mouse sensitivity listener
+        mouseSensitivitySlider.onValueChanged.AddListener((value) => {
+            setMouseSensitivityValue(value);
+        });
 
         //floral density listener
         floralDensitySlider.onValueChanged.AddListener((value) => {
@@ -48,7 +55,6 @@ public class UIManager : MonoBehaviour {
 
         //render distance listener
         renderDistanceSlider.onValueChanged.AddListener((value) => {
-            //FoliageManager.ClearFoliage();
             setRenderDistanceValue(value);
             GameManager.Instance.fogDistance(value);
             FoliageManager.setTerrainWidth(value);
@@ -56,7 +62,20 @@ public class UIManager : MonoBehaviour {
         });
     }
 
+    void Update() {
+        if (Input.GetKeyDown(KeyCode.Escape)) {
+            if (!panel.activeSelf) {
+                panelEnter();
+            } else {
+                panelExit();
+            }
+        }
+    }
+
     //setters
+    public void setMouseSensitivityValue(float newValue) {
+        mouseSensitivitySliderValue = newValue;
+    }
     public void setFloralDensityValue(float newValue) {
         floralDensitySliderValue = newValue;
     }
@@ -65,6 +84,9 @@ public class UIManager : MonoBehaviour {
     }
 
     //getters
+    public float getMouseSensitivityValue() {
+        return mouseSensitivitySliderValue;
+    }
     public float getFloralDensityValue() {
         return floralDensitySliderValue;
     }
@@ -72,21 +94,32 @@ public class UIManager : MonoBehaviour {
         return renderDistanceSliderValue;
     }
 
-    public void panelToggle() {
+    public void panelEnter() {
         if (panel != null) {
-            panel.SetActive(!panel.activeSelf);
+            panel.SetActive(true);
+            unlockCursor();
         }
     }
 
     public void panelExit() {
         if (panel != null) {
             panel.SetActive(false);
-            //GameManager.Instance.Player.GetComponent<PlayerLook>().isDebugMode = true;
+            lockCursor();
         }
     }
 
     //applies settings by calling all related Spawn() functions
     public void applySettings() {
         FoliageManager.Spawn();
+    }
+
+    //cursor lock/unlock
+    void lockCursor() {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+    public void unlockCursor() {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 }

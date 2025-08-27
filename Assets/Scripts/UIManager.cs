@@ -19,12 +19,18 @@ public class UIManager : MonoBehaviour {
     [Header("UI Elements")]
     [SerializeField] private Button panelButton;
     [SerializeField] public GameObject panel;
+    //foliage
+    [SerializeField] private Slider floralHeightSlider;
+    [SerializeField] private float floralHeightSliderValue;
+    [SerializeField] private Slider floralHeightVarianceSlider;
+    [SerializeField] private float floralHeightVarianceSliderValue;
+    [SerializeField] private Slider floralDensitySlider;
+    [SerializeField] private float floralDensitySliderValue;
+    //mechanical
     [SerializeField] private Slider movementSpeedSlider;
     [SerializeField] private float movementSpeedSliderValue;
     [SerializeField] private Slider mouseSensitivitySlider;
     [SerializeField] private int mouseSensitivitySliderValue;
-    [SerializeField] private Slider floralDensitySlider;
-    [SerializeField] private float floralDensitySliderValue;
 
     [SerializeField] private Slider renderDistanceSlider;
     [SerializeField] private float renderDistanceSliderValue;
@@ -41,10 +47,30 @@ public class UIManager : MonoBehaviour {
         panel.SetActive(false);
 
         //default settings
+        setFloralHeightValue(1f);
+        setFloralHeightVarianceValue(0f);
+        setFloralDensityValue(0.2f);
         setMovementSpeedValue(5);
         setMouseSensitivityValue(1000);
-        setFloralDensityValue(0.2f);
         setRenderDistanceValue(100f);
+
+        //floral height listener
+        floralHeightSlider.onValueChanged.AddListener((value) => {
+            setFloralHeightValue(value);
+            FoliageManager.Spawn();
+        });
+
+        //floral height variance listener
+        floralHeightSlider.onValueChanged.AddListener((value) => {
+            setFloralHeightVarianceValue(value);
+            FoliageManager.Spawn();
+        });
+
+        //floral density listener
+        floralDensitySlider.onValueChanged.AddListener((value) => {
+            setFloralDensityValue(value);
+            FoliageManager.Spawn();
+        });
 
         //movement speed listener
         movementSpeedSlider.onValueChanged.AddListener((value) => {
@@ -55,12 +81,6 @@ public class UIManager : MonoBehaviour {
         mouseSensitivitySlider.onValueChanged.AddListener((value) => {
             int intValue = Mathf.RoundToInt(value);
             setMouseSensitivityValue(intValue);
-        });
-
-        //floral density listener
-        floralDensitySlider.onValueChanged.AddListener((value) => {
-            setFloralDensityValue(value);
-            FoliageManager.Spawn();
         });
 
         //render distance listener
@@ -83,28 +103,40 @@ public class UIManager : MonoBehaviour {
     }
 
     //setters
+    public void setFloralHeightValue(float newValue) {
+        floralHeightSliderValue = newValue;
+    }
+    public void setFloralHeightVarianceValue(float newValue) {
+        floralHeightVarianceSliderValue = newValue;
+    }
+    public void setFloralDensityValue(float newValue) {
+        floralDensitySliderValue = newValue;
+    }
     public void setMovementSpeedValue(float newValue) {
         movementSpeedSliderValue = newValue;
     }
     public void setMouseSensitivityValue(int newValue) {
         mouseSensitivitySliderValue = newValue;
     }
-    public void setFloralDensityValue(float newValue) {
-        floralDensitySliderValue = newValue;
-    }
     public void setRenderDistanceValue(float newValue) {
         renderDistanceSliderValue = newValue;
     }
 
     //getters
+    public float getFloralHeightValue() {
+        return floralHeightSliderValue;
+    }
+    public float getFloralHeightVarianceValue() {
+        return floralHeightVarianceSliderValue;
+    }
+    public float getFloralDensityValue() {
+        return floralDensitySliderValue;
+    }
     public float getMovementSpeedValue() {
         return movementSpeedSliderValue;
     }
     public int getMouseSensitivityValue() {
         return mouseSensitivitySliderValue;
-    }
-    public float getFloralDensityValue() {
-        return floralDensitySliderValue;
     }
     public float getRenderDistanceValue() {
         return renderDistanceSliderValue;

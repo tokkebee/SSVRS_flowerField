@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -16,10 +17,12 @@ public class FoliageManager : MonoBehaviour {
 
     [Header("Foliage Settings")]
     public List<FoliageType> foliageTypes;
-    private float foliageDensity;
+    [SerializeField] private float height = 1f;
+    [SerializeField] private float heightVariance = 0.1f;
+    //private float foliageDensity;
 
     [Header("Movement Settings")]
-    public float scrollSpeed = 5f;
+    //public float scrollSpeed = 5f;
 
     private List<GameObject> allFoliage = new List<GameObject>();
 
@@ -40,6 +43,7 @@ public class FoliageManager : MonoBehaviour {
     }
 
     public void Spawn() {
+        float heightVariance = UIManager.Instance.getFloralHeightVarianceValue();
         float renderDist = UIManager.Instance.getRenderDistanceValue();
         float area = Mathf.Pow(renderDist, 2);
         ClearFoliage();
@@ -47,13 +51,17 @@ public class FoliageManager : MonoBehaviour {
         foreach (FoliageType type in foliageTypes) {
             // type.count = Mathf.CeilToInt(type.foliageDensity * area);
             // type.foliageDensity = type.count / area;
+            height = UIManager.Instance.getFloralHeightValue();
             type.foliageDensity = UIManager.Instance.getFloralDensityValue();
             type.count = Mathf.CeilToInt(type.foliageDensity * area);
 
             for (int i = 0; i < type.count; i++) {
+                //ensures no flowers are underground or z-fighting
+                float ranHeight = heightVariance == 0 ? height : height - Random.Range(-heightVariance, heightVariance);
+
                 Vector3 pos = new Vector3(
                     Random.Range(-renderDist, renderDist),
-                    0f,
+                    ranHeight, //height
                     Random.Range(-renderDist, renderDist)
                 );
 

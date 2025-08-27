@@ -684,7 +684,10 @@ MonoBehaviour:
   foliageTypes:
   - prefab: {fileID: 919132149155446097, guid: 54c3e44bbd364c44c812d739f76818b6, type: 3}
     count: 500
-    foliageDensity: 0.2
+    foliageDensity: 0.1
+  - prefab: {fileID: 919132149155446097, guid: fff17b1c2b7b4ef448fbfd5939748760, type: 3}
+    count: 500
+    foliageDensity: 0.1
   scrollSpeed: 5
 --- !u!1 &665195224
 GameObject:

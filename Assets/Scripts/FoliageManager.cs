@@ -25,7 +25,8 @@ public class FoliageManager : MonoBehaviour {
 
     void Start() {
         Spawn();
-        getFoliageDensity();
+        //UIManager.Instance.getFloralDensityValue();
+        //getFoliageDensity();
     }
 
     //setters
@@ -44,8 +45,10 @@ public class FoliageManager : MonoBehaviour {
         ClearFoliage();
 
         foreach (FoliageType type in foliageTypes) {
+            // type.count = Mathf.CeilToInt(type.foliageDensity * area);
+            // type.foliageDensity = type.count / area;
+            type.foliageDensity = UIManager.Instance.getFloralDensityValue();
             type.count = Mathf.CeilToInt(type.foliageDensity * area);
-            type.foliageDensity = type.count / area;
 
             for (int i = 0; i < type.count; i++) {
                 Vector3 pos = new Vector3(
@@ -69,10 +72,10 @@ public class FoliageManager : MonoBehaviour {
         allFoliage.Clear();
     }
 
-    public float getFoliageDensity() {
-        foliageDensity = allFoliage.Count / (terrainWidth * 2);
-        return foliageDensity;
-    }
+    // public float getFoliageDensity() {
+    //     foliageDensity = allFoliage.Count / (terrainWidth * 2);
+    //     return foliageDensity;
+    // }
 
     void Update() {
         float inputX = Input.GetAxisRaw("Horizontal");

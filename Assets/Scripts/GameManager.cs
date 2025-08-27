@@ -3,16 +3,14 @@ using System.Collections.Generic;
 using Kino;
 using UnityEngine;
 
-//This script is the Game Manager. Currently is used to reference Mesh Generator and Player, and to updates Mesh Generator position
+//This script is the Game Manager. References other game objects. Controls fog distance
 
 public class GameManager : MonoBehaviour {
     public static GameManager Instance { get; private set; }
 
-    //public GameObject MeshGenerator;
     public GameObject FoliageManager;
     public GameObject Player;
     public GameObject mainCamera;
-    public GameObject debugCamera;
 
 
     void Awake() {
@@ -25,7 +23,6 @@ public class GameManager : MonoBehaviour {
         DontDestroyOnLoad(gameObject);
 
         mainCamera.SetActive(true);
-        debugCamera.SetActive(false);
     }
 
     public void fogDistance(float dist) {

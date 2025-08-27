@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 //This script handles all UI interactions.
+//Sliders have Listeners
 public class UIManager : MonoBehaviour {
     public static UIManager Instance { get; private set; }
 
@@ -14,6 +15,8 @@ public class UIManager : MonoBehaviour {
     [Header("UI Elements")]
     [SerializeField] private Button panelButton;
     [SerializeField] private GameObject panel;
+    [SerializeField] private Slider floralDensitySlider;
+    [SerializeField] private float floralDensitySliderValue;
 
     [SerializeField] private Slider renderDistanceSlider;
     [SerializeField] private float renderDistanceSliderValue;
@@ -34,8 +37,16 @@ public class UIManager : MonoBehaviour {
         panel.SetActive(false);
 
         //default settings
+        setFloralDensityValue(0.2f);
         setRenderDistanceValue(100f);
 
+        //floral density listener
+        floralDensitySlider.onValueChanged.AddListener((value) => {
+            setFloralDensityValue(value);
+            FoliageManager.Spawn();
+        });
+
+        //render distance listener
         renderDistanceSlider.onValueChanged.AddListener((value) => {
             //FoliageManager.ClearFoliage();
             setRenderDistanceValue(value);
@@ -46,11 +57,17 @@ public class UIManager : MonoBehaviour {
     }
 
     //setters
+    public void setFloralDensityValue(float newValue) {
+        floralDensitySliderValue = newValue;
+    }
     public void setRenderDistanceValue(float newValue) {
         renderDistanceSliderValue = newValue;
     }
 
     //getters
+    public float getFloralDensityValue() {
+        return floralDensitySliderValue;
+    }
     public float getRenderDistanceValue() {
         return renderDistanceSliderValue;
     }

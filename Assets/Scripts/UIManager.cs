@@ -20,6 +20,8 @@ public class UIManager : MonoBehaviour {
     [SerializeField] private Button panelButton;
     [SerializeField] public GameObject panel;
     //foliage
+    [SerializeField] private Slider floralTiltSlider;
+    [SerializeField] private float floralTiltSliderValue;
     [SerializeField] private Slider floralHeightSlider;
     [SerializeField] private float floralHeightSliderValue;
     [SerializeField] private Slider floralHeightVarianceSlider;
@@ -47,12 +49,19 @@ public class UIManager : MonoBehaviour {
         panel.SetActive(false);
 
         //default settings
+        setFloralTiltValue(.5f);
         setFloralHeightValue(1f);
         setFloralHeightVarianceValue(0f);
         setFloralDensityValue(0.2f);
         setMovementSpeedValue(5);
         setMouseSensitivityValue(1000);
         setRenderDistanceValue(100f);
+
+        //floral tilt listener
+        floralTiltSlider.onValueChanged.AddListener((value) => {
+            setFloralTiltValue(value);
+            FoliageManager.Spawn();
+        });
 
         //floral height listener
         floralHeightSlider.onValueChanged.AddListener((value) => {
@@ -61,7 +70,7 @@ public class UIManager : MonoBehaviour {
         });
 
         //floral height variance listener
-        floralHeightSlider.onValueChanged.AddListener((value) => {
+        floralHeightVarianceSlider.onValueChanged.AddListener((value) => {
             setFloralHeightVarianceValue(value);
             FoliageManager.Spawn();
         });
@@ -103,6 +112,9 @@ public class UIManager : MonoBehaviour {
     }
 
     //setters
+    public void setFloralTiltValue(float newValue) {
+        floralTiltSliderValue = newValue;
+    }
     public void setFloralHeightValue(float newValue) {
         floralHeightSliderValue = newValue;
     }
@@ -123,6 +135,9 @@ public class UIManager : MonoBehaviour {
     }
 
     //getters
+    public float getFloralTiltValue() {
+        return floralTiltSliderValue;
+    }
     public float getFloralHeightValue() {
         return floralHeightSliderValue;
     }

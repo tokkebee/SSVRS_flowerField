@@ -19,7 +19,7 @@ public class FoliageManager : MonoBehaviour {
     public List<FoliageType> foliageTypes;
     [SerializeField] private float height = 1f;
     [SerializeField] private float heightVariance = 0.1f;
-    //private float foliageDensity;
+    [SerializeField] private float tilt = 0f;
 
     [Header("Movement Settings")]
     //public float scrollSpeed = 5f;
@@ -28,8 +28,6 @@ public class FoliageManager : MonoBehaviour {
 
     void Start() {
         Spawn();
-        //UIManager.Instance.getFloralDensityValue();
-        //getFoliageDensity();
     }
 
     //setters
@@ -43,14 +41,13 @@ public class FoliageManager : MonoBehaviour {
     }
 
     public void Spawn() {
-        float heightVariance = UIManager.Instance.getFloralHeightVarianceValue();
+        heightVariance = UIManager.Instance.getFloralHeightVarianceValue();
         float renderDist = UIManager.Instance.getRenderDistanceValue();
         float area = Mathf.Pow(renderDist, 2);
         ClearFoliage();
 
         foreach (FoliageType type in foliageTypes) {
-            // type.count = Mathf.CeilToInt(type.foliageDensity * area);
-            // type.foliageDensity = type.count / area;
+            tilt = UIManager.Instance.getFloralTiltValue();
             height = UIManager.Instance.getFloralHeightValue();
             type.foliageDensity = UIManager.Instance.getFloralDensityValue();
             type.count = Mathf.CeilToInt(type.foliageDensity * area);
@@ -59,14 +56,24 @@ public class FoliageManager : MonoBehaviour {
                 //ensures no flowers are underground or z-fighting
                 float ranHeight = heightVariance == 0 ? height : height - Random.Range(-heightVariance, heightVariance);
 
+                //position
                 Vector3 pos = new Vector3(
                     Random.Range(-renderDist, renderDist),
                     ranHeight, //height
                     Random.Range(-renderDist, renderDist)
                 );
 
+                //vector3 for new rotation parameter
+                //xyz rotation
+                Vector3 rot = new Vector3(
+                    Random.Range(-tilt, tilt),
+                    Random.Range(0f, 360f),
+                    Random.Range(-tilt, tilt)
+                );
+                
                 GameObject obj = Instantiate(type.prefab, pos, Quaternion.identity, transform);
-                obj.transform.Rotate(Vector3.up, Random.Range(0f, 360f));
+                obj.transform.Rotate(rot);
+                //obj.transform.Rotate(Vector3.up, Random.Range(0f, 360f));
                 allFoliage.Add(obj);
             }
         }

@@ -7,9 +7,10 @@ using Random = UnityEngine.Random;
 public class FoliageManager : MonoBehaviour {
     [System.Serializable]
     public class FoliageType {
+        public string id; //IMPORTANT: "pink", "blue", "grass"
         public GameObject prefab;
-        public int count = 1000;
-        public float foliageDensity = .4f; //TODO
+        public float foliageDensity = 0.4f;
+        public int count;
     }
 
     [Header("Terrain Settings")]
@@ -41,44 +42,91 @@ public class FoliageManager : MonoBehaviour {
     }
 
     public void Spawn() {
-        heightVariance = UIManager.Instance.getFloralHeightVarianceValue();
+        //heightVariance = UIManager.Instance.getFloralHeightVarianceValue();
         float renderDist = UIManager.Instance.getRenderDistanceValue();
         float area = Mathf.Pow(renderDist, 2);
         ClearFoliage();
 
         foreach (FoliageType type in foliageTypes) {
-            tilt = UIManager.Instance.getFloralTiltValue();
-            height = UIManager.Instance.getFloralHeightValue();
-            type.foliageDensity = UIManager.Instance.getFloralDensityValue();
+            // tilt = UIManager.Instance.getFloralTiltValue();
+            // height = UIManager.Instance.getFloralHeightValue();
             type.count = Mathf.CeilToInt(type.foliageDensity * area);
 
+            switch (type.id) { //NAMES ARE HARDCODED
+                case "pink":
+                    type.foliageDensity = UIManager.Instance.getPinkDensityValue();
+                    break;
+                case "blue":
+                    type.foliageDensity = UIManager.Instance.getBlueDensityValue();
+                    break;
+                case "grass":
+                    type.foliageDensity = 0.6f; // hardcoded, or inspector value
+                    break;
+                default:
+                    break;
+            }
+            type.count = Mathf.CeilToInt(type.foliageDensity * area);
+
+
             for (int i = 0; i < type.count; i++) {
-                //ensures no flowers are underground or z-fighting
-                float ranHeight = heightVariance == 0 ? height : height - Random.Range(-heightVariance, heightVariance);
+                // //ensures no flowers are underground or z-fighting; grass is strictly on the ground
+                float yPos;
+                if (type.prefab.name == "IL3DN_Plant_Grass_01")
+                    yPos = 0f;
+                else if (heightVariance == 0)
+                    yPos = height;
+                else
+                    yPos = height - Random.Range(-heightVariance, heightVariance);
+
 
                 //position
                 Vector3 pos = new Vector3(
                     Random.Range(-renderDist, renderDist),
-                    ranHeight, //height
+                    yPos, //height
                     Random.Range(-renderDist, renderDist)
                 );
 
-                //vector3 for new rotation parameter
-                //xyz rotation
-                Vector3 rot = new Vector3(
-                    Random.Range(-tilt, tilt),
-                    Random.Range(0f, 360f),
-                    Random.Range(-tilt, tilt)
-                );
-                
+                // //vector3 for new rotation parameter
+                // //xyz rotation
+                // Vector3 rot = new Vector3(
+                //     Random.Range(-tilt, tilt),
+                //     Random.Range(0f, 360f),
+                //     Random.Range(-tilt, tilt)
+                // );
+
                 GameObject obj = Instantiate(type.prefab, pos, Quaternion.identity, transform);
-                obj.transform.Rotate(rot);
-                //obj.transform.Rotate(Vector3.up, Random.Range(0f, 360f));
+                //obj.transform.Rotate(rot);
                 allFoliage.Add(obj);
             }
         }
     }
 
+    public void UpdateTransforms() {
+        float tilt = UIManager.Instance.getFloralTiltValue();
+        float height = UIManager.Instance.getFloralHeightValue();
+        float variance = UIManager.Instance.getFloralHeightVarianceValue();
+
+        foreach (GameObject obj in allFoliage) {
+            Vector3 pos = obj.transform.position;
+
+            // grass stays grounded
+            if (obj.name.Contains("Grass")) {
+                pos.y = 0f;
+            }
+            else {
+                pos.y = variance == 0 ? height : height - Random.Range(-variance, variance);
+            }
+            obj.transform.position = pos;
+
+            // new tilt
+            Vector3 rot = new Vector3(
+                Random.Range(-tilt, tilt),
+                obj.transform.rotation.eulerAngles.y, // keep yaw
+                Random.Range(-tilt, tilt)
+            );
+            obj.transform.rotation = Quaternion.Euler(rot);
+        }
+    }
 
     public void ClearFoliage() {
         for (int i = allFoliage.Count - 1; i >= 0; i--) {

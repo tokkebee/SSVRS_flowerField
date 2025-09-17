@@ -26,8 +26,13 @@ public class UIManager : MonoBehaviour {
     [SerializeField] private float floralHeightSliderValue;
     [SerializeField] private Slider floralHeightVarianceSlider;
     [SerializeField] private float floralHeightVarianceSliderValue;
-    [SerializeField] private Slider floralDensitySlider;
-    [SerializeField] private float floralDensitySliderValue;
+    //pink density
+    [SerializeField] private Slider pinkDensitySlider;
+    [SerializeField] private float pinkDensitySliderValue;
+    //blue density
+
+    [SerializeField] private Slider blueDensitySlider;
+    [SerializeField] private float blueDensitySliderValue;
     //mechanical
     [SerializeField] private Slider movementSpeedSlider;
     [SerializeField] private float movementSpeedSliderValue;
@@ -52,7 +57,8 @@ public class UIManager : MonoBehaviour {
         setFloralTiltValue(.5f);
         setFloralHeightValue(1f);
         setFloralHeightVarianceValue(0f);
-        setFloralDensityValue(0.2f);
+        setPinkDensityValue(0.2f);
+        setBlueDensityValue(0.2f);
         setMovementSpeedValue(5);
         setMouseSensitivityValue(1000);
         setRenderDistanceValue(100f);
@@ -60,24 +66,33 @@ public class UIManager : MonoBehaviour {
         //floral tilt listener
         floralTiltSlider.onValueChanged.AddListener((value) => {
             setFloralTiltValue(value);
-            FoliageManager.Spawn();
-        });
+            //FoliageManager.Spawn();
+            FoliageManager.UpdateTransforms();
+        }); 
 
         //floral height listener
         floralHeightSlider.onValueChanged.AddListener((value) => {
             setFloralHeightValue(value);
-            FoliageManager.Spawn();
+            //FoliageManager.Spawn();
+            FoliageManager.UpdateTransforms();
         });
 
         //floral height variance listener
         floralHeightVarianceSlider.onValueChanged.AddListener((value) => {
             setFloralHeightVarianceValue(value);
+            //FoliageManager.Spawn();
+            FoliageManager.UpdateTransforms();
+        });
+
+        //pink density listener
+        pinkDensitySlider.onValueChanged.AddListener((value) => {
+            setPinkDensityValue(value);
             FoliageManager.Spawn();
         });
 
-        //floral density listener
-        floralDensitySlider.onValueChanged.AddListener((value) => {
-            setFloralDensityValue(value);
+        //blue density listener
+        blueDensitySlider.onValueChanged.AddListener((value) => {
+            setBlueDensityValue(value);
             FoliageManager.Spawn();
         });
 
@@ -105,7 +120,8 @@ public class UIManager : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Escape)) {
             if (!panel.activeSelf) {
                 panelEnter();
-            } else {
+            }
+            else {
                 panelExit();
             }
         }
@@ -121,8 +137,11 @@ public class UIManager : MonoBehaviour {
     public void setFloralHeightVarianceValue(float newValue) {
         floralHeightVarianceSliderValue = newValue;
     }
-    public void setFloralDensityValue(float newValue) {
-        floralDensitySliderValue = newValue;
+    public void setPinkDensityValue(float newValue) {
+        pinkDensitySliderValue = newValue;
+    }
+    public void setBlueDensityValue(float newValue) {
+        blueDensitySliderValue = newValue;
     }
     public void setMovementSpeedValue(float newValue) {
         movementSpeedSliderValue = newValue;
@@ -144,8 +163,11 @@ public class UIManager : MonoBehaviour {
     public float getFloralHeightVarianceValue() {
         return floralHeightVarianceSliderValue;
     }
-    public float getFloralDensityValue() {
-        return floralDensitySliderValue;
+    public float getPinkDensityValue() {
+        return pinkDensitySliderValue;
+    }
+    public float getBlueDensityValue() {
+        return blueDensitySliderValue;
     }
     public float getMovementSpeedValue() {
         return movementSpeedSliderValue;

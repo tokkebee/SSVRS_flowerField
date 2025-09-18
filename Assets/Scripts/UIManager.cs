@@ -63,27 +63,26 @@ public class UIManager : MonoBehaviour {
         setMouseSensitivityValue(1000);
         setRenderDistanceValue(100f);
 
+        // ----- Cheap Updates: Tilt / Height / Variance -----
         //floral tilt listener
         floralTiltSlider.onValueChanged.AddListener((value) => {
             setFloralTiltValue(value);
-            //FoliageManager.Spawn();
             FoliageManager.UpdateTransforms();
         }); 
 
         //floral height listener
         floralHeightSlider.onValueChanged.AddListener((value) => {
             setFloralHeightValue(value);
-            //FoliageManager.Spawn();
             FoliageManager.UpdateTransforms();
         });
 
         //floral height variance listener
         floralHeightVarianceSlider.onValueChanged.AddListener((value) => {
             setFloralHeightVarianceValue(value);
-            //FoliageManager.Spawn();
             FoliageManager.UpdateTransforms();
         });
 
+        // ----- Expensive Updates: Density (respawn) -----
         //pink density listener
         pinkDensitySlider.onValueChanged.AddListener((value) => {
             setPinkDensityValue(value);
@@ -96,6 +95,7 @@ public class UIManager : MonoBehaviour {
             FoliageManager.Spawn();
         });
 
+        // ----- Mechanics -----
         //movement speed listener
         movementSpeedSlider.onValueChanged.AddListener((value) => {
             setMovementSpeedValue(value);
@@ -107,6 +107,7 @@ public class UIManager : MonoBehaviour {
             setMouseSensitivityValue(intValue);
         });
 
+        // ----- Render Distance (expensive respawn + fog) -----
         //render distance listener
         renderDistanceSlider.onValueChanged.AddListener((value) => {
             setRenderDistanceValue(value);

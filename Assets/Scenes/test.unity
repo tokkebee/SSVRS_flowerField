@@ -1753,20 +1753,21 @@ MonoBehaviour:
   terrainWidth: 100
   foliageTypes:
   - id: pink
-    prefab: {fileID: 919132149155446097, guid: 54c3e44bbd364c44c812d739f76818b6, type: 3}
+    prefab: {fileID: 1592587711014887775, guid: 3ee5af5fede89d546ae3d772ee729114, type: 3}
     foliageDensity: 0.1
     count: 500
   - id: blue
-    prefab: {fileID: 919132149155446097, guid: fff17b1c2b7b4ef448fbfd5939748760, type: 3}
+    prefab: {fileID: 6313392700798023149, guid: 86dffe777334e9b44bc878d8c2470177, type: 3}
     foliageDensity: 0.1
     count: 500
   - id: grass
-    prefab: {fileID: 6404268809379339476, guid: 9a32147e38101fd48876749fd208348d, type: 3}
+    prefab: {fileID: 370017044100625462, guid: 0e354ffa576555a4aaaff699ed0a241d, type: 3}
     foliageDensity: 0.6
     count: 500
   height: 1
   heightVariance: 0
   tilt: 0
+  allFoliage: []
 --- !u!1 &585586956
 GameObject:
   m_ObjectHideFlags: 0
@@ -4703,7 +4704,7 @@ MonoBehaviour:
   m_MinValue: 0.1
   m_MaxValue: 1.5
   m_WholeNumbers: 0
-  m_Value: 1
+  m_Value: 0.569
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []

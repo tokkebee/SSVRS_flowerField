@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8217757545113250052}
   - component: {fileID: 6098213707718444542}
   - component: {fileID: 2048479588420352277}
+  - component: {fileID: 879874662017375904}
   m_Layer: 0
   m_Name: Foliage_Base
   m_TagString: Untagged
@@ -83,6 +84,30 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!205 &879874662017375904
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 583293341084246710}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: 0, y: 0, z: 0}
+  m_Size: 1
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.501532
+    fadeTransitionWidth: 0
+    renderers: []
+  - screenRelativeHeight: 0.20405519
+    fadeTransitionWidth: 0
+    renderers: []
+  - screenRelativeHeight: 0.047851726
+    fadeTransitionWidth: 0
+    renderers: []
+  m_Enabled: 1
 --- !u!1 &5936395017746551554
 GameObject:
   m_ObjectHideFlags: 0
@@ -133,5 +158,5 @@ MonoBehaviour:
   lockHeight: 0
   lockTilt: 0
   tiltDirection: {x: 0, y: 0}
-  baseHeight: 0
   randomOffset: 0
+  meshTransform: {fileID: 0}

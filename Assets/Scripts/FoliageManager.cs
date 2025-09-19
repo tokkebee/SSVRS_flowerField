@@ -118,7 +118,7 @@ public class FoliageManager : MonoBehaviour {
             switch (type.id) {
                 case "pink": type.foliageDensity = UIManager.Instance.getPinkDensityValue(); break;
                 case "blue": type.foliageDensity = UIManager.Instance.getBlueDensityValue(); break;
-                case "grass": type.foliageDensity = 0.6f; break;
+                case "grass": type.foliageDensity = 1.0f; break;//0.6f; break;
             }
 
             int neededCount = Mathf.CeilToInt(type.foliageDensity * area);

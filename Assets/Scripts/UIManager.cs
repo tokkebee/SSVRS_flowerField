@@ -55,7 +55,7 @@ public class UIManager : MonoBehaviour {
 
         //default settings
         setFloralTiltValue(.5f);
-        setFloralHeightValue(1f);
+        setFloralHeightValue(0.1f);
         setFloralHeightVarianceValue(0f);
         setPinkDensityValue(0.2f);
         setBlueDensityValue(0.2f);
